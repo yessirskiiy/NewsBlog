@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post</title>
+</head>
+<body>
+<li>Author: {{post.author}}</li>
+<h1>{{post.title}}</h1>
+<div class="content">
+    <ul>{{post.text}}</ul>
+    {% if post.image.url is not Null %}
+    <div class="image" align="center">
+        <img src="{{ post.image.url }}" alt="">
+    </div>
+    {% else %}
+    <p>{{null}}</p>
+    {% endif %}
+</div>
+{% if post.author == request.user %}
+<a href="{% url 'post_edit' post.id %}">Edit</a>
+<a href="{% url 'post_delete' post.id %}">Delete</a>
+{% endif %}
+<hr>
+<p>Коментарии</p>
+{% if request.user.is_authenticated %}
+<div>
+    <form method="POST" action="{% url 'create_comment' post_id=post.id %}">
+        <div class="col">
+            <label for="text"></label>
+            <textarea class="form-control" id="text" name="text"></textarea>
+        </div>
+        <div class="form-group row text-right">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </div>
+        {% csrf_token %}
+    </form>
+</div>
+{% endif %}
+{% for comment in comments %}
+<div class="container-fluid">
+    <div class="text-area">
+        {{comment.text}}
+    </div>
+    <div class="author">
+        {{comment.author}}
+    </div>
+    <div class="date">
+        {{comment.created_at}}
+    </div>
+    {% if comment.author == request.user %}
+    <a href="{% url 'delete_comment' comment.id %}">Delete</a>
+    {% endif %}
+</div>
+<br/>
+{% endfor %}
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comment Delete</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ comment }}"?</p>
+    {{ form.as_p }}
+    <input type="submit">
+</form>
+</body>
+</html>

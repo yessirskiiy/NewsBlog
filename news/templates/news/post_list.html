@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News</title>
+</head>
+<body>
+{% if request.user.is_authenticated %}
+Current user: {{user}} <a href="{% url 'logout' %}">Logout</a>
+<br>
+<a href="{% url 'post_create' %}">Create a new post</a>
+{% else %}
+<a href="{% url 'login' %}">Войти</a>
+{% endif %}
+<hr>
+<div>
+{%for post in posts %}
+    <li>
+        <a href="{% url 'post' post.id %}">{{post.title}}</a>
+    </li>
+{%endfor%}
+</div>
+</body>
+</html>
